@@ -6,6 +6,32 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Controllers\scss\navs\_global.scss" />
+    <Content Include="Controllers\scss\navs\_sidebar.scss" />
+    <Content Include="Controllers\scss\navs\_topbar.scss" />
+    <Content Include="Controllers\scss\sb-admin-2.scss" />
+    <Content Include="Controllers\scss\utilities\_animation.scss" />
+    <Content Include="Controllers\scss\utilities\_background.scss" />
+    <Content Include="Controllers\scss\utilities\_border.scss" />
+    <Content Include="Controllers\scss\utilities\_display.scss" />
+    <Content Include="Controllers\scss\utilities\_progress.scss" />
+    <Content Include="Controllers\scss\utilities\_rotate.scss" />
+    <Content Include="Controllers\scss\utilities\_text.scss" />
+    <Content Include="Controllers\scss\_buttons.scss" />
+    <Content Include="Controllers\scss\_cards.scss" />
+    <Content Include="Controllers\scss\_charts.scss" />
+    <Content Include="Controllers\scss\_dropdowns.scss" />
+    <Content Include="Controllers\scss\_error.scss" />
+    <Content Include="Controllers\scss\_footer.scss" />
+    <Content Include="Controllers\scss\_global.scss" />
+    <Content Include="Controllers\scss\_login.scss" />
+    <Content Include="Controllers\scss\_mixins.scss" />
+    <Content Include="Controllers\scss\_navs.scss" />
+    <Content Include="Controllers\scss\_utilities.scss" />
+    <Content Include="Controllers\scss\_variables.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Google.AdWords" Version="24.18.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

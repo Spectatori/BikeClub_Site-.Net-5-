@@ -1,4 +1,4 @@
-﻿@model asp_anything.Models.User
+﻿@model asp_anything.Models.Viewer
 <!DOCTYPE html>
 <title>Вход</title>
 <html lang="en">
@@ -48,11 +48,6 @@
                                                     <label asp-for="Password" class="control-label fc-white"></label>
                                                     <input asp-for="Password" class="form-control submissionfield" type="password"/>
                                                     <span asp-validation-for="Password" class="text-danger" type="password"></span>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label asp-for="Email" class="control-label fc-white"></label>
-                                                    <input asp-for="Email" class="form-control submissionfield" />
-                                                    <span asp-validation-for="Email" class="text-danger"></span>
                                                 </div>
                                                 <div class="custom-control custom-checkbox small">
                                                     <input type="checkbox" class="custom-control-input" id="customCheck">

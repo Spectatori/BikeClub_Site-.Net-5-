@@ -9,6 +9,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using static asp_anything.Models.User;
+using System.Text.RegularExpressions;
 
 namespace asp_anything.Controllers
 {
@@ -17,6 +19,7 @@ namespace asp_anything.Controllers
     {
         public List<User> ReadFromFile()
         {
+            //We read the Registrations before all actions and convert it to json
             string path = System.IO.Directory.GetCurrentDirectory() + "\\wwwroot\\Registrations\\Registrations.json";
             if (System.IO.File.Exists(path))
             {
@@ -26,6 +29,7 @@ namespace asp_anything.Controllers
                     return JsonConvert.DeserializeObject<List<User>>(json);
                 }
             }
+            //If the file is empty then we create a new list
             else
             {
                 return new List<User>();
@@ -36,6 +40,7 @@ namespace asp_anything.Controllers
 
         public HomeController(ILogger<HomeController> logger)
         {
+            //UserList becomes the file we just read
             UserList = ReadFromFile();
             _logger = logger;
         }
@@ -84,6 +89,30 @@ namespace asp_anything.Controllers
         {
             return View();
         }
+        public IActionResult UserI()
+        {
+            return View();
+        }
+        public IActionResult UserCrew()
+        {
+            return View();
+        }
+        public IActionResult UserEvents()
+        {
+            return View();
+        }
+        public IActionResult UserGallery()
+        {
+            return View();
+        }
+        public IActionResult UserNews()
+        {
+            return View();
+        }
+        public IActionResult UserSponsors()
+        {
+            return View();
+        }
 
         public IActionResult RegisterButton(User user)
         {
@@ -95,21 +124,30 @@ namespace asp_anything.Controllers
                     System.IO.File.WriteAllText(path, json);
                     List<User> users = JsonConvert.DeserializeObject <List<User>>(json);
             }
-            return View("Login", user);
+            return View("Login");
         }
-
-
         public IActionResult LoginButton(User user)
         {
+            user.currentNickname = null;
             foreach(var item in UserList)
             {
-                if (item.Nickname == user.Nickname && item.Password == user.Password && item.Email == user.Email)
+                if (item.Nickname == user.Nickname && item.Password == user.Password)
                 {
-                    return View("Register");
+                    /*String ToPublicUrl()
+                    {
+                        return String.Format("http://www.KKMontana.com/public/{0}.cshtml",
+                            Regex.Replace(user.Nickname, "[^a-zA-Z]", ""));
+                    }*/
+                    user.currentNickname = item.Nickname; 
+                    
+                    return View("UserI");
                 }
             }
             return View("Login");
         }
-        
+        public IActionResult Logout()
+        {
+            return View("Index");
+        }
     }
 }

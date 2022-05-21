@@ -4,12 +4,8 @@ using System.Security.Claims;
 
 namespace asp_anything.Models
 {
-    public class User
+    public class User : Viewer
     {
-        public string Nickname { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        
-
+        public string currentNickname { get; set; }
     }
 }

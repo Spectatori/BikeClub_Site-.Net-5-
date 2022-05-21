@@ -1,4 +1,44 @@
-﻿@model asp_anything.Models.User
-@{
-}
+﻿@model asp_anything.Models.Viewer
+<head>
+    <title>Събития</title>
+    <link rel="stylesheet" type="text/css" href="~/css/StyleSheet.css"/>
+    <link rel="stylesheet" type="text/css" href="~/css/lightbox.min.css" />
+    <script src="~/js/lightbox-plus-jquery.min.js"></script>
+    <style>
+        body {
+            background-color: white;
+        }
+        #container1 {
+            width: 20%;
+            float: left;
+        }
+        .text {
+            text-align: center;
+        }    
+        .center-image {
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<h1 class="title"><b><i>Събития</i></b></h1>
+<hr style="height: 20px; color: #069dfb"/>
+<div class="gallery">
+    
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <a
+                    href="~/Images/Event1.png"
+                    data-lightbox="mygallery"
+                    data-title="Bike Challenge NOVI ISKAR 03.04.2022г.">
 
+                    <img class="center-image" src="~/Images/Event1.png" style="height: 300px; width: 450px"/>
+                </a>
+                <p class="text">Bike Challenge NOVI ISKAR 03.04.2022г.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
