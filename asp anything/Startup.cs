@@ -1,3 +1,4 @@
+using asp_anything.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,6 +24,7 @@ namespace asp_anything
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IFileManagerService,FileManagerService>();//(Get's the interface and the implementation of the interface)
             services.AddControllersWithViews();
         }
 

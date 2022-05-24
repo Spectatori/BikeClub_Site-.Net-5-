@@ -10,39 +10,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using static asp_anything.Models.User;
-using System.Text.RegularExpressions;
+using asp_anything.Services;
 
 namespace asp_anything.Controllers
 {
-
     public class HomeController : Controller
     {
-        public List<User> ReadFromFile()
-        {
-            //We read the Registrations before all actions and convert it to json
-            string path = System.IO.Directory.GetCurrentDirectory() + "\\wwwroot\\Registrations\\Registrations.json";
-            if (System.IO.File.Exists(path))
-            {
-                using (StreamReader r = new StreamReader(path))
-                {
-                    string json = r.ReadToEnd();
-                    return JsonConvert.DeserializeObject<List<User>>(json);
-                }
-            }
-            //If the file is empty then we create a new list
-            else
-            {
-                return new List<User>();
-            }
-        }
+        IFileManagerService _fileManagerService;
         List<User> UserList = new List<User>();
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IFileManagerService service)
         {
             //UserList becomes the file we just read
-            UserList = ReadFromFile();
+            _fileManagerService = service;//Doesn't delete service and stays here
+            UserList = _fileManagerService.ReadFromFile();
             _logger = logger;
+        }
+        public IActionResult Profile()
+        {
+            return View("Profile");
         }
 
         public IActionResult Index()
@@ -113,41 +100,52 @@ namespace asp_anything.Controllers
         {
             return View();
         }
-
         public IActionResult RegisterButton(User user)
         {
             UserList.Add(user);
-            string path = System.IO.Directory.GetCurrentDirectory() + "\\wwwroot\\Registrations\\Registrations.json";
-            if (System.IO.File.Exists(path))
-            {
-                    string json = JsonConvert.SerializeObject(UserList);
-                    System.IO.File.WriteAllText(path, json);
-                    List<User> users = JsonConvert.DeserializeObject <List<User>>(json);
-            }
+            _fileManagerService.WriteUsers(UserList);
             return View("Login");
         }
         public IActionResult LoginButton(User user)
         {
-            user.currentNickname = null;
-            foreach(var item in UserList)
+            var item = UserList.FirstOrDefault(x => x.Nickname == user.Nickname && x.Password == user.Password);
+            if(item == null)
             {
+                return View("Login");
+            }
+            else
+            {
+                user.currentNickname = item.Nickname;
+                return View("Profile2");
+            }
+            /*{
                 if (item.Nickname == user.Nickname && item.Password == user.Password)
                 {
-                    /*String ToPublicUrl()
+                    *//*String ToPublicUrl()
                     {
                         return String.Format("http://www.KKMontana.com/public/{0}.cshtml",
                             Regex.Replace(user.Nickname, "[^a-zA-Z]", ""));
-                    }*/
-                    user.currentNickname = item.Nickname; 
+                    }*//*
+                    user.currentNickname = item.Nickname;
+                    user.currentPassword = item.Password;
                     
-                    return View("UserI");
+                    return View("Profile");
                 }
-            }
-            return View("Login");
+            }*/
         }
         public IActionResult Logout()
         {
             return View("Index");
+        }
+        public IActionResult Change(User user)
+        {
+            var currentUser = UserList.FirstOrDefault(x => x.Nickname == user.Nickname && x.Password == user.Password);
+            if(currentUser != null)
+            {
+                currentUser.Nickname = user.Nickname;
+                currentUser.Password = user.Password;
+            }
+            return View("Login");
         }
     }
 }
