@@ -35,6 +35,7 @@
     <PackageReference Include="Google.AdWords" Version="24.18.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="RestSharp" Version="107.3.0" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties wwwroot_4registrations_4registrations_1json__JsonSchema="https://appsemble.app/api.json" /></VisualStudio></ProjectExtensions>

@@ -1,16 +1,55 @@
 ﻿@model asp_anything.Models.User
+
 @{
     Layout = "Layout.cshtml";
 }
-<html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+     <title>Отбор</title>
+    <link rel="stylesheet" type="text/css" href="~/css/StyleSheet.css"/>
+    <link rel="stylesheet" type="text/css" href="~/css/lightbox.min.css" />
+    <script src="~/js/lightbox-plus-jquery.min.js"></script>
+    <style>
+        body {
+            background-color: white;
+        }
+        .text {
+            text-align: center;
+        }    
+        .center-image {
+            display: block;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
-    <div class="col-md-10 " dir="ltr">
-            <div class="col-md-10 " dir="ltr">   @Html.DisplayFor(a => a.currentNickname)
+<h1 class="title"><b><i>@Model.Nickname</i></b></h1>
+<div class="form-group">  
+</div>  
+<div class="gallery">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <a
+                    href="~/Images/@Model.userPhoto"
+                    data-lightbox="mygallery"
+                    data-title="">
+
+                    <img class="center-image" src="~/Images/@Model.userPhoto">
+                </a>
+                <form asp-action="ChangePicture" class="user" runat="server">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input asp-for="userPhoto" type="file" name="userPhoto" class="center-image" id="fileUpload" accept=".png,.jpg,.jpeg,.gif,.tif" />
+                </div>
+                <hr />
+                <input type="submit" value="Смени снимката" class="btn btn-primary btn-user btn-block center-image" />
+                <h1></h1>
+                <div class="text-center">
+                <a class="small btn btn-primary" asp-controller="Home" asp-action="ChangePassword">Смяна на информация за потребителя</a>
+                </div>
+            </form>
+            </div>
+        </div>
     </div>
+</div>
 </body>
-</html>

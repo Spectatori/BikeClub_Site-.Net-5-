@@ -4,13 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using static asp_anything.Models.User;
 using asp_anything.Services;
+using Microsoft.AspNetCore.Http;
+using asp_anything.Security;
 
 namespace asp_anything.Controllers
 {
@@ -29,76 +28,193 @@ namespace asp_anything.Controllers
         }
         public IActionResult Profile()
         {
-            return View("Profile");
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                _fileManagerService.WriteToCookie(user, Response);
+                return View("Profile", user);
+            }
+            else
+            {
+                return View("Login");
+            }
+
         }
 
         public IActionResult Index()
         {
-            return View();
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            { 
+                return View("Profile", user);
+            }
+            else
+            {
+                return View("Index");
+            }
         }
 
         public IActionResult Crew()
         {
-            return View();
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                return View("Profile", user);
+            }
+            else
+            {
+                return View("Crew");
+            }
         }
 
         public IActionResult Login()
         {
-            return View();
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                return View("Profile", user);
+            }
+            else
+            {
+                return View("Login");
+            }
         }
 
         public IActionResult Events()
         {
-            return View();
-        }
-
-        public IActionResult ForgottenPassword()
-        {
-            return View();
-        }
-
-        public IActionResult Register(List<User> userList)
-        {
-            return View();
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                return View("Profile", user);
+            }
+            else
+            {
+                return View("Events");
+            }
         }
 
         public IActionResult News()
         {
-            return View();
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                return View("Profile", user);
+            }
+            else
+            {
+                return View("News");
+            }
         }
 
         public IActionResult Sponsors()
         {
-            return View();
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                return View("Profile", user);
+            }
+            else
+            {
+                return View("Sponsors");
+            }
         }
 
         public IActionResult Gallery()
         {
-            return View();
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                return View("Profile", user);
+            }
+            else
+            {
+                return View("Gallery");
+            }
         }
-        public IActionResult UserI()
+        public IActionResult UserTeam()
         {
-            return View();
+
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                return View("UserTeam");
+            }
+            else
+            {
+                return View("Login");
+            }
         }
         public IActionResult UserCrew()
         {
-            return View();
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                return View("UserCrew");
+            }
+            else
+            {
+                return View("Login");
+            }
         }
         public IActionResult UserEvents()
         {
-            return View();
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                return View("UserEvents");
+            }
+            else
+            {
+                return View("Login");
+            }
         }
         public IActionResult UserGallery()
         {
-            return View();
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                return View("UserGallery");
+            }
+            else
+            {
+                return View("Login");
+            }
         }
         public IActionResult UserNews()
         {
-            return View();
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                return View("UserNews");
+            }
+            else
+            {
+                return View("Login");
+            }
         }
         public IActionResult UserSponsors()
         {
-            return View();
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                return View("UserSponsors");
+            }
+            else
+            {
+                return View("Login");
+            }
+        }
+        public IActionResult Register()
+        {
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                return View("Profile");
+            }
+            else
+            {
+                return View("Register");
+            }
         }
         public IActionResult RegisterButton(User user)
         {
@@ -108,15 +224,15 @@ namespace asp_anything.Controllers
         }
         public IActionResult LoginButton(User user)
         {
-            var item = UserList.FirstOrDefault(x => x.Nickname == user.Nickname && x.Password == user.Password);
+            var item = UserList.FirstOrDefault(x => x.Email == user.Email && x.Password == user.Password);
             if(item == null)
             {
                 return View("Login");
             }
             else
             {
-                user.currentNickname = item.Nickname;
-                return View("Profile2");
+                _fileManagerService.WriteToCookie(item, Response);
+                return View("Profile", item);
             }
             /*{
                 if (item.Nickname == user.Nickname && item.Password == user.Password)
@@ -135,17 +251,35 @@ namespace asp_anything.Controllers
         }
         public IActionResult Logout()
         {
+            Response.Cookies.Delete("user");
             return View("Index");
         }
-        public IActionResult Change(User user)
+        public IActionResult ChangePicture(User user)
         {
-            var currentUser = UserList.FirstOrDefault(x => x.Nickname == user.Nickname && x.Password == user.Password);
-            if(currentUser != null)
+            string pictureURL = user.userPhoto;
+            user = _fileManagerService.ReadFromCookie(Request);
+            if(user == null)
             {
-                currentUser.Nickname = user.Nickname;
-                currentUser.Password = user.Password;
+                return View("Login");
             }
-            return View("Login");
+            var item = UserList.FirstOrDefault(x => x.Email == user.Email);
+            if (item == null)
+            {
+                return View("Login");
+            }
+            else
+            {
+                item.userPhoto = pictureURL;
+                _fileManagerService.WriteUsers(UserList);
+
+                _fileManagerService.WriteToCookie(item, Response);
+                user.userPhoto = item.userPhoto;
+                return View("Profile", user);
+            }
+        }
+        public IActionResult ChangePassword(User user)
+        {
+            return View("ChangePassword");
         }
     }
 }

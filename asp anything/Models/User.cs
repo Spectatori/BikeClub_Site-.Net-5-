@@ -6,7 +6,7 @@ namespace asp_anything.Models
 {
     public class User : Viewer
     {
-        public string currentNickname { get; set; }
+        public string userPhoto { get; set; }
         /*public string ID { get; }
         public override List<string> GetInfo()
         {

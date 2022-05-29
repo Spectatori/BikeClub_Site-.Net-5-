@@ -39,27 +39,27 @@
 
                                         <h4 class="fs-600 fc-white">Вход</h4>
                                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                                <div class="form-group">
-                                                    <label asp-for="Nickname" class="control-label fc-white"></label>
-                                                    <input asp-for="Nickname" class="form-control submissionfield" />
-                                                    <span asp-validation-for="Nickname" class="text-danger fc-white"></span>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label asp-for="Password" class="control-label fc-white"></label>
-                                                    <input asp-for="Password" class="form-control submissionfield" type="password"/>
-                                                    <span asp-validation-for="Password" class="text-danger" type="password"></span>
-                                                </div>
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                    <label class="custom-control-label" for="customCheck">Запомни ме!</label>
-                                                </div>
-                                                <input type="submit" value="Вход" class="btn btn-primary btn-user btn-block" />
+                                            <div class="form-group">
+                                                <label asp-for="Email" class="control-label fc-white"></label>
+                                                <input asp-for="Email" class="form-control submissionfield" />
+                                                <span asp-validation-for="Email" class="text-danger fc-white"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="Password" class="control-label fc-white"></label>
+                                                <input asp-for="Password" class="form-control submissionfield" type="password"/>
+                                                <span asp-validation-for="Password" class="text-danger" type="password"></span>
+                                            </div>
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">Запомни ме!</label>
+                                            </div>
+                                            <input type="submit" value="Вход" class="btn btn-primary btn-user btn-block" />
                 
-                                                <div class="form-group">
-                                                </div>
+                                            <div class="form-group">
+                                            </div>
                                     </form>
 
-                                    <hr>
+                                    <hr />
                                     <div class="text-center">
                                         <a class="small" asp-page="/forgotten-password">Забравена парола?</a>
                                     </div>
