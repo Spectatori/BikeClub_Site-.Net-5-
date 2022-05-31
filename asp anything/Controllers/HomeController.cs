@@ -216,6 +216,18 @@ namespace asp_anything.Controllers
                 return View("Register");
             }
         }
+        public IActionResult ChangePassword()
+        {
+            User user = _fileManagerService.ReadFromCookie(Request);
+            if (user != null)
+            {
+                return View("ChangePassword");
+            }
+            else
+            {
+                return View("Register");
+            }
+        }
         public IActionResult RegisterButton(User user)
         {
             UserList.Add(user);
@@ -277,9 +289,21 @@ namespace asp_anything.Controllers
                 return View("Profile", user);
             }
         }
-        public IActionResult ChangePassword(User user)
+        public IActionResult PasswordChange(User user)
         {
-            return View("ChangePassword");
+            string change = user.changePassword;
+            var item = UserList.FirstOrDefault(x => x.Email == user.Email && x.Password == user.Password);
+            if (item == null)
+            {
+                return View("Login");
+            }
+            else
+            {
+                item.Password = change;
+                _fileManagerService.WriteUsers(UserList);
+                Response.Cookies.Delete("user");
+                return View("Login");
+            }
         }
     }
 }
