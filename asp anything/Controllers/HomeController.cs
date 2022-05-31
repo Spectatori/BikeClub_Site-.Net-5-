@@ -21,14 +21,13 @@ namespace asp_anything.Controllers
 
         public HomeController(ILogger<HomeController> logger, IFileManagerService service)
         {
-            //UserList becomes the file we just read
             _fileManagerService = service;//Doesn't delete service and stays here
-            UserList = _fileManagerService.ReadFromFile();
+            UserList = _fileManagerService.ReadFromFile(); //UserList becomes the file we just read
             _logger = logger;
         }
         public IActionResult Profile()
         {
-            User user = _fileManagerService.ReadFromCookie(Request);
+            User user = _fileManagerService.ReadFromCookie(Request); //Reads from cookies and if something's in there it returns Profile
             if (user != null)
             {
                 _fileManagerService.WriteToCookie(user, Response);
@@ -230,13 +229,17 @@ namespace asp_anything.Controllers
         }
         public IActionResult RegisterButton(User user)
         {
-            UserList.Add(user);
-            _fileManagerService.WriteUsers(UserList);
+            if (UserList.Any(u => u.Email == user.Email))
+            {
+                return View("Register");
+            }
+            UserList.Add(user); // adds the user in the list
+            _fileManagerService.WriteUsers(UserList); //writes the list in the document
             return View("Login");
         }
         public IActionResult LoginButton(User user)
         {
-            var item = UserList.FirstOrDefault(x => x.Email == user.Email && x.Password == user.Password);
+            var item = UserList.FirstOrDefault(x => x.Email == user.Email && x.Password == user.Password); 
             if(item == null)
             {
                 return View("Login");
@@ -246,20 +249,6 @@ namespace asp_anything.Controllers
                 _fileManagerService.WriteToCookie(item, Response);
                 return View("Profile", item);
             }
-            /*{
-                if (item.Nickname == user.Nickname && item.Password == user.Password)
-                {
-                    *//*String ToPublicUrl()
-                    {
-                        return String.Format("http://www.KKMontana.com/public/{0}.cshtml",
-                            Regex.Replace(user.Nickname, "[^a-zA-Z]", ""));
-                    }*//*
-                    user.currentNickname = item.Nickname;
-                    user.currentPassword = item.Password;
-                    
-                    return View("Profile");
-                }
-            }*/
         }
         public IActionResult Logout()
         {
@@ -268,8 +257,8 @@ namespace asp_anything.Controllers
         }
         public IActionResult ChangePicture(User user)
         {
-            string pictureURL = user.userPhoto;
-            user = _fileManagerService.ReadFromCookie(Request);
+            string pictureURL = user.userPhoto; //takes the entered picture in Profile
+            user = _fileManagerService.ReadFromCookie(Request); //
             if(user == null)
             {
                 return View("Login");
