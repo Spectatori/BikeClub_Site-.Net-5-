@@ -239,14 +239,14 @@ namespace asp_anything.Controllers
         }
         public IActionResult LoginButton(User user)
         {
-            var item = UserList.FirstOrDefault(x => x.Email == user.Email && x.Password == user.Password); 
+            var item = UserList.FirstOrDefault(x => x.Email == user.Email && x.Password == user.Password); //checks if such user exists
             if(item == null)
             {
                 return View("Login");
             }
             else
             {
-                _fileManagerService.WriteToCookie(item, Response);
+                _fileManagerService.WriteToCookie(item, Response); //writes the info in the cookies
                 return View("Profile", item);
             }
         }
@@ -258,7 +258,7 @@ namespace asp_anything.Controllers
         public IActionResult ChangePicture(User user)
         {
             string pictureURL = user.userPhoto; //takes the entered picture in Profile
-            user = _fileManagerService.ReadFromCookie(Request); //
+            user = _fileManagerService.ReadFromCookie(Request); // reads from cookies and sets it to user
             if(user == null)
             {
                 return View("Login");
@@ -270,11 +270,11 @@ namespace asp_anything.Controllers
             }
             else
             {
-                item.userPhoto = pictureURL;
-                _fileManagerService.WriteUsers(UserList);
+                item.userPhoto = pictureURL; //sets pictureURL to UserList userPhoto
+                _fileManagerService.WriteUsers(UserList); //writes the list in the document
 
-                _fileManagerService.WriteToCookie(item, Response);
-                user.userPhoto = item.userPhoto;
+                _fileManagerService.WriteToCookie(item, Response); //writes in the cookies
+                user.userPhoto = item.userPhoto; //sets the current photo to the chosen photo
                 return View("Profile", user);
             }
         }
