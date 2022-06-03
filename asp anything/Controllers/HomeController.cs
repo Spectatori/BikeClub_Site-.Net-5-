@@ -1,15 +1,9 @@
 ﻿using asp_anything.Models;
-using Google.Api.Ads.AdWords.v201809;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using static asp_anything.Models.User;
 using asp_anything.Services;
-using Microsoft.AspNetCore.Http;
-using asp_anything.Security;
 
 namespace asp_anything.Controllers
 {

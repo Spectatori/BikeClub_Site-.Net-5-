@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace asp_anything.Security
+namespace SecurityLibrary.Security
 {
     public static class EncryptDecrypt
     {
